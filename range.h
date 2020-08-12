@@ -63,6 +63,11 @@ namespace sequences {
 		inline bool test_inner_value(const t_value& value) const										{ return !(max < value) && !(min > value); }
 		inline bool test_left_value(const t_value& value) const											{ return value < min; }
 		inline bool test_right_value(const t_value& value) const										{ return max < value; }
+		inline bool test_left_or_equal_value(const t_value& value) const								{ return !(max < value); }
+		inline bool test_right_or_equal_value(const t_value& value) const								{ return !(value < min); }
+
+		inline t_value make_left_near_value(void) const													{ return move_left_value(min, t_is_integer()); }
+		inline t_value make_right_near_value(void) const												{ return move_right_value(max, t_is_integer()); }
 
 	public:
 		inline static t_this make_unite(const t_this& obj1, const t_this& obj2)							{ return t_this(std::min(obj1.min, obj2.min), std::max(obj1.max, obj2.max)); }
