@@ -36,8 +36,8 @@ namespace collections {
 		inline const t_range* get_data(void) const						{ return array.data(); }
 		inline t_citerator get_begin(void) const						{ return array.begin(); }
 		inline t_citerator get_end(void) const							{ return array.end(); }
-		inline t_criterator get_begin(void) const						{ return array.rbegin(); }
-		inline t_criterator get_end(void) const							{ return array.rend(); }
+		inline t_criterator get_rbegin(void) const						{ return array.rbegin(); }
+		inline t_criterator get_rend(void) const						{ return array.rend(); }
 
 		inline bool empty(void) const									{ return array.empty(); }
 		inline size_type size(void) const								{ return array.size(); }
@@ -96,7 +96,7 @@ namespace collections {
 			t_index			m;
 			const t_range*	r;
 			do {
-				m = first + (last - first) >> 1;
+				m = first + ((last - first) >> 1);
 				r = array.data() + m;
 				if (r->test_left_or_equal_value(value))
 					last = m;
@@ -183,7 +183,7 @@ namespace collections {
 					return true;
 				}
 				t_range* p = array.data() + e;
-				t_value& m = range.acc_max();
+				t_value& m = const_cast<t_value&>(range.acc_max());
 				if (p->test_right_or_equal_value(range.make_right_near_value()))
 				{
 					m = p->acc_max();
@@ -195,7 +195,7 @@ namespace collections {
 					array.erase(array.begin() + b + 1, array.begin() + e);
 					return true;
 				}
-				if (previos_append_value(b, range->acc_min(), m))
+				if (previos_append_value(b, range.acc_min(), m))
 				{
 					array.erase(array.begin() + b, array.begin() + e);
 					return true;
@@ -204,7 +204,7 @@ namespace collections {
 				array.erase(array.begin() + b + 1, array.begin() + e);
 				return true;
 			}
-			if (previos_append_value(b, range->acc_min(), r->acc_max()))
+			if (previos_append_value(b, range.acc_min(), r->acc_max()))
 			{
 				array.erase(array.begin() + b, array.begin() + e);
 				return true;
@@ -213,7 +213,7 @@ namespace collections {
 			array.erase(array.begin() + b + 1, array.begin() + e);
 			return true;
 		}
-		if (!previos_append_value(b, range->acc_min(), range->acc_max()))
+		if (!previos_append_value(b, range.acc_min(), range.acc_max()))
 			array.push_back(range);
 		return true;
 	}

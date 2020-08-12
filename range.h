@@ -25,18 +25,18 @@ namespace sequences {
 		inline static t_difference correct_length(const t_difference& value, const std::true_type&)		{ return value + 1; }
 
 	private:
-		inline bool test_near_left_value(const t_value& value, const std::false_type&)					{ return false; }
-		inline bool test_near_right_value(const t_value& value, const std::false_type&)					{ return false; }
-		inline bool test_near_value(const t_value& value, const std::false_type&)						{ return false; }
+		inline bool test_near_left_value(const t_value& value, const std::false_type&) const			{ return false; }
+		inline bool test_near_right_value(const t_value& value, const std::false_type&) const			{ return false; }
+		inline bool test_near_value(const t_value& value, const std::false_type&) const					{ return false; }
 
-		inline bool test_near_left_value(const t_value& value, const std::true_type&)					{ return value < min && (value + 1) == min; }
-		inline bool test_near_right_value(const t_value& value, const std::true_type&)					{ return value > max && (max + 1) == value; }
-		inline bool test_near_value(const t_value& value, const std::true_type&)						{ return (value < min) ? (value + 1) == min : ((value > max) ? (max + 1) == value : false); }
+		inline bool test_near_left_value(const t_value& value, const std::true_type&) const				{ return value < min && (value + 1) == min; }
+		inline bool test_near_right_value(const t_value& value, const std::true_type&) const			{ return value > max && (max + 1) == value; }
+		inline bool test_near_value(const t_value& value, const std::true_type&) const					{ return (value < min) ? (value + 1) == min : ((value > max) ? (max + 1) == value : false); }
 
-		inline t_value move_left_value(const t_value& value, const std::false_type&)					{ return value; }
-		inline t_value move_right_value(const t_value& value, const std::false_type&)					{ return value; }
-		inline t_value move_left_value(const t_value& value, const std::true_type&)						{ return value - 1; }
-		inline t_value move_right_value(const t_value& value, const std::true_type&)					{ return value + 1; }
+		inline static t_value move_left_value(const t_value& value, const std::false_type&)				{ return value; }
+		inline static t_value move_right_value(const t_value& value, const std::false_type&)			{ return value; }
+		inline static t_value move_left_value(const t_value& value, const std::true_type&)				{ return value - 1; }
+		inline static t_value move_right_value(const t_value& value, const std::true_type&)				{ return value + 1; }
 
 	public:
 		inline bool is_normalized(void) const															{ return !(max < min); }
@@ -45,13 +45,13 @@ namespace sequences {
 		inline t_difference get_length(void) const														{ return correct_length(max - min, t_is_integer()); }
 
 		inline t_value	get_min(void) const																{ return this->min; }
-		inline t_value&	acc_min(void) const																{ return this->min; }
+		inline const t_value&	acc_min(void) const														{ return this->min; }
 		inline t_value& acc_min(void)																	{ return this->min; }
-		inline t_value	set_min(const t_value& value)													{ this->min = value; return; }
+		inline t_value	set_min(const t_value& value)													{ return this->min = value; }
 		inline t_value	get_max(void) const																{ return this->max; }
-		inline t_value& acc_max(void) const																{ return this->max; }
+		inline const t_value& acc_max(void) const														{ return this->max; }
 		inline t_value& acc_max(void)																	{ return this->max; }
-		inline t_value	set_max(const t_value& value)													{ this->max = value; return; }
+		inline t_value	set_max(const t_value& value)													{ return this->max = value; }
 
 	public:
 		inline bool normalize(void)																		{ if(max < min) { std::swap(min, max); return true; } return false; }
