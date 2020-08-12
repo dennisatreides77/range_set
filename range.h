@@ -40,6 +40,7 @@ namespace sequences {
 
 	public:
 		inline bool is_normalized(void) const															{ return !(max < min); }
+		inline bool is_single_value(void) const															{ return min == max; }
 
 		inline t_difference get_length(void) const														{ return correct_length(max - min, t_is_integer()); }
 
@@ -86,6 +87,11 @@ namespace sequences {
 		inline tm_range()
 			: t_this::min()
 			, t_this::max()
+		{
+		}
+		inline explicit tm_range(const t_value& val)
+			: t_this::min(val)
+			, t_this::max(val)
 		{
 		}
 		inline tm_range(const t_value& min, const t_value& max)
